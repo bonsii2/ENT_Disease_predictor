@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about the MediScan AI medical image classification architecture, workflow pipeline, and educational goals.">
+    <title>About - MediScan AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo-brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MediScan AI Logo" class="logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/prediction" class="nav-link">Prediction</a></li>
+                <li><a href="/about" class="nav-link active">About</a></li>
+                <li><a href="/contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="content-section">
+        <div class="container">
+
+            <div class="section-header">
+                <h1 class="section-title">About the Project</h1>
+                <p class="section-subtitle">Understanding AI in Otolaryngological Medical Image Analysis</p>
+            </div>
+
+            <!-- Project Purpose -->
+            <div class="content-card">
+                <h3>Project Purpose</h3>
+                <p>
+                    <strong>MediScan AI</strong> is an educational decision-support platform designed to demonstrate how deep learning models classify medical images. Built specifically for programming students and healthcare AI researchers, it demonstrates how computer vision can aid clinical workflow analysis.
+                </p>
+                <p>
+                    The platform evaluates images across three distinct otolaryngological domains: Ear, Nose, and Throat diseases.
+                </p>
+            </div>
+
+            <!-- Why AI is Being Used -->
+            <div class="content-card">
+                <h3>Why Artificial Intelligence?</h3>
+                <p>
+                    Otolaryngology relies heavily on visual inspection using otoscopes, endoscopes, and oral examination. Machine learning algorithms (such as Convolutional Neural Networks and EfficientNet architectures) excel at identifying fine visual patterns, color changes, and textural anomalies in high-resolution medical imagery.
+                </p>
+                <p>
+                    AI assist tools can serve as preliminary triage aids, assisting medical trainees in understanding feature recognition and probability distributions.
+                </p>
+            </div>
+
+            <!-- Image Processing Workflow -->
+            <div class="content-card">
+                <h3>How Image Classification Works</h3>
+                <p>When an image is submitted, it undergoes a standardized computer vision pipeline:</p>
+
+                <!-- Workflow Diagram -->
+                <div class="workflow-diagram">
+                    <div class="wf-step">1. Image Upload</div>
+                    <div class="wf-arrow">➔</div>
+                    <div class="wf-step">2. Preprocessing (224x224 RGB)</div>
+                    <div class="wf-arrow">➔</div>
+                    <div class="wf-step">3. AI Model (Keras)</div>
+                    <div class="wf-arrow">➔</div>
+                    <div class="wf-step">4. Softmax Classification</div>
+                    <div class="wf-arrow">➔</div>
+                    <div class="wf-step">5. Prediction & Recommendation</div>
+                </div>
+
+                <ul style="margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                    <li><strong>Preprocessing:</strong> Images are normalized, resized to 224x224 pixels, and converted into 4D tensor arrays.</li>
+                    <li><strong>Inference:</strong> The trained model extracts features and outputs confidence logits.</li>
+                    <li><strong>Softmax Layer:</strong> Converts raw scores into percentage probabilities across all possible classes.</li>
+                </ul>
+            </div>
+
+            <!-- The Three Prediction Models -->
+            <div class="content-card">
+                <h3>The Three Prediction Models</h3>
+                <ul style="margin-left: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                    <li>
+                        <strong>Ear Disease Predictor:</strong> Classifies otoscopic images into Acute Otitis Media, Cerumen Impaction, Chronic Otitis Media, Myringosclerosis, or Normal eardrum status.
+                    </li>
+                    <li>
+                        <strong>Nose Disease Predictor:</strong> Configurable classifier identifying Allergic Rhinitis, Nasal Polyps, or Normal mucosa.
+                    </li>
+                    <li>
+                        <strong>Throat Disease Predictor:</strong> Classifies oral cavity imagery into Pharyngitis, Tonsillitis, or Normal throat features.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Disclaimer Notice -->
+            <div class="disclaimer-box">
+                <div class="disclaimer-icon">⚠️</div>
+                <div class="disclaimer-text">
+                    <h4>Educational & Decision-Support Notice</h4>
+                    <p>
+                        AI prediction is for educational/decision-support purposes only and should not replace evaluation by a qualified healthcare professional.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>MediScan AI</h3>
+                    <p>Educational decision-support platform utilizing deep neural networks for otolaryngological medical image analysis.</p>
+                </div>
+
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/prediction">Prediction</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 MediScan AI Project. Built for Educational & Research Purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
