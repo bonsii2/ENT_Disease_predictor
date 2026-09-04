@@ -10,6 +10,169 @@ A beginner-friendly, educational AI medical image classification web application
 
 ---
 
+## 🚀 Beginner's Quick-Start Roadmap (For Students New to GitHub)
+
+If you have **never used GitHub or command line before**, follow these simple step-by-step instructions to get the application up and running on your computer.
+
+---
+
+### Step 0: Check Prerequisites
+
+1. **Check if Python is installed:**
+   Open your terminal/command prompt and type:
+   ```bash
+   python --version
+   ```
+   *(If Python is not installed, download it from [python.org](https://www.python.org/downloads/).)*
+
+2. **Check if Git is installed:**
+   Type:
+   ```bash
+   git --version
+   ```
+   *(If Git is not installed, download it from [git-scm.com](https://git-scm.com/downloads).)*
+
+---
+
+### Step 1: Open Your Terminal or Command Prompt
+
+- **On Windows:**
+  Press `Win + R`, type `cmd` (or `powershell`), and press **Enter**.
+- **On Mac:**
+  Press `Cmd + Space`, type `Terminal`, and press **Enter**.
+
+---
+
+### Step 2: Clone (Download) the Repository
+
+Navigate to your Desktop (or any folder where you want to keep the project):
+```bash
+cd Desktop
+```
+
+Clone the repository to your computer:
+```bash
+git clone https://github.com/bonsii2/ENT_Disease_predictor
+```
+
+
+Navigate into the downloaded project folder:
+```bash
+cd ENT_Disease_predictor
+```
+
+---
+
+### Step 3: Pull Future Updates from GitHub (When code is updated)
+
+Whenever your teacher or teammate updates code on GitHub, run this command inside the project folder to get the latest updates:
+```bash
+git pull origin main
+```
+
+---
+
+### Step 4: Create a Python Virtual Environment
+
+A virtual environment keeps all project packages isolated and prevents conflicts with other Python projects.
+
+- **On Windows (Command Prompt or PowerShell):**
+  ```bash
+  python -m venv venv
+  ```
+- **On Mac / Linux:**
+  ```bash
+  python3 -m venv venv
+  ```
+
+---
+
+### Step 5: Activate the Virtual Environment
+
+- **On Windows (Command Prompt `cmd`):**
+  ```cmd
+  venv\Scripts\activate
+  ```
+- **On Windows (PowerShell):**
+  ```powershell
+  venv\Scripts\Activate.ps1
+  ```
+  *(If PowerShell shows an execution policy error, run: `Set-ExecutionPolicy Unrestricted -Scope Process` first).*
+
+- **On Mac / Linux:**
+  ```bash
+  source venv/bin/activate
+  ```
+
+> 💡 **How do you know it's activated?**
+> You will see `(venv)` at the beginning of your terminal command prompt line!
+
+---
+
+### Step 6: Install Required Packages
+
+Install all necessary libraries (Flask, TensorFlow, NumPy, Pillow, Werkzeug) in one command:
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### Step 7: Generate Initial Models & Assets (First Time Only)
+
+Run this script once so TensorFlow creates sample model files inside `models/`:
+```bash
+python create_dummy_models.py
+```
+
+---
+
+### Step 8: Run the Flask Web Application
+
+Start the web server:
+```bash
+python app.py
+```
+
+You will see output in your terminal:
+```
+==================================================================
+ Starting MediScan AI Flask Server...
+ Access the application in your web browser at: http://127.0.0.1:5000/
+==================================================================
+```
+
+---
+
+### Step 9: Open the Website in Your Browser
+
+Open your web browser (Chrome, Edge, Firefox, or Safari) and go to:
+```
+http://127.0.0.1:5000/
+```
+
+---
+
+## 📋 Summary Checklist for Daily Use
+
+Every time you open terminal to work on this project, run these 3 quick commands:
+
+```bash
+# 1. Go into the project directory
+cd Desktop/ENT_Disease_predictor
+
+# 2. Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On Mac/Linux:
+source venv/bin/activate
+
+# 3. Start Flask app
+python app.py
+```
+
+---
+
 ## 1. Project Overview
 
 This application allows users to select one of three specialized AI models (**Ear**, **Nose**, and **Throat/Third Model**) and upload a medical image. The backend processes the image using deep learning models and returns:
@@ -78,74 +241,7 @@ medical-ai-project/
 
 ---
 
-## 4. Step-by-Step Setup Guide
-
-### Step 1: Create a Virtual Environment
-
-It is recommended to run Python projects inside an isolated virtual environment.
-
-**On Windows:**
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-**On Linux / macOS:**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
----
-
-### Step 2: Install Required Dependencies
-
-Install all required Python packages listed in `requirements.txt`:
-```bash
-pip install -r requirements.txt
-```
-
----
-
-### Step 3: Generate Initial Models & Logo
-
-To allow Flask to start immediately out-of-the-box before placing your final trained custom model weights:
-
-Run the included model generator script:
-```bash
-python create_dummy_models.py
-```
-*This creates sample `.keras` files inside `models/` so `tf.keras.models.load_model()` succeeds seamlessly.*
-
----
-
-### Step 4: Run the Flask Web Application
-
-Start the local Flask development server:
-```bash
-python app.py
-```
-
-You will see log messages in your terminal indicating that the models have loaded:
-```
-==================================================================
- Starting MediScan AI Flask Server...
- Access the application in your web browser at: http://127.0.0.1:5000/
-==================================================================
-```
-
----
-
-### Step 5: Open the Application in your Browser
-
-Open your web browser (Chrome, Firefox, Edge, or Safari) and navigate to:
-```
-http://127.0.0.1:5000/
-```
-
----
-
-## 5. How Frontend and Backend Communicate
+## 4. How Frontend and Backend Communicate
 
 ```
 User (Browser)
@@ -191,7 +287,7 @@ JavaScript Renderer (static/js/prediction.js)
 
 ---
 
-## 6. API Endpoint Reference
+## 5. API Endpoint Reference
 
 ### 1. Ear Disease Prediction
 - **URL:** `POST /api/predict/ear`
@@ -232,7 +328,7 @@ JavaScript Renderer (static/js/prediction.js)
 
 ---
 
-## 7. How to Replace or Update Trained ML Models
+## 6. How to Replace or Update Trained ML Models
 
 1. Train your Keras model in Python / Google Colab with target input shape `(224, 224, 3)`.
 2. Save your trained model file as `.keras` (e.g. `ear_disease_model.keras`).
@@ -245,7 +341,7 @@ JavaScript Renderer (static/js/prediction.js)
 
 ---
 
-## 8. How to Change Educational Recommendations
+## 7. How to Change Educational Recommendations
 
 To modify or add health recommendations:
 1. Open [`recommendations/recommendations.py`](file:///c:/Users/Bonsaa%20Daba/OneDrive/Desktop/ent_project/recommendations/recommendations.py).
@@ -254,7 +350,7 @@ To modify or add health recommendations:
 
 ---
 
-## 9. Common Errors and Solutions
+## 8. Common Errors and Solutions
 
 | Problem | Cause | Solution |
 | :--- | :--- | :--- |
@@ -265,7 +361,6 @@ To modify or add health recommendations:
 
 ---
 
-## 10. License & Learning Usage
+## 9. License & Learning Usage
 
 This project is open for basic programming classes, computer vision demonstrations, and educational research.
-# ENT_Disease_predictor
