@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact the MediScan AI team for educational inquiries, research feedback, or platform support.">
+    <title>Contact - MediScan AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo-brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MediScan AI Logo" class="logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/prediction" class="nav-link">Prediction</a></li>
+                <li><a href="/about" class="nav-link">About</a></li>
+                <li><a href="/contact" class="nav-link active">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="content-section">
+        <div class="container">
+
+            <div class="section-header">
+                <h1 class="section-title">Contact Us</h1>
+                <p class="section-subtitle">Have questions or feedback about the AI prediction platform?</p>
+            </div>
+
+            <!-- Contact Form Container -->
+            <div class="content-card">
+                <h3>Send a Message</h3>
+                <p style="margin-bottom: 1.5rem;">Fill out the form below to reach out to our project team.</p>
+
+                <!-- Feedback Banner -->
+                <div id="contactAlert" class="error-alert" style="margin-bottom: 1.5rem;"></div>
+
+                <form id="contactForm" class="contact-form" novalidate>
+                    <div class="form-group">
+                        <label for="contactName">Full Name *</label>
+                        <input type="text" id="contactName" class="form-input" placeholder="e.g. Jane Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address *</label>
+                        <input type="email" id="contactEmail" class="form-input" placeholder="e.g. jane@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactSubject">Subject</label>
+                        <input type="text" id="contactSubject" class="form-input" placeholder="e.g. Project Inquiry or Feedback">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage">Message *</label>
+                        <textarea id="contactMessage" class="form-textarea" placeholder="Type your message here..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="align-self: flex-start;">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Project Contact Info Grid -->
+            <div class="contact-info-grid">
+                <div class="contact-item">
+                    <h5>Project Email</h5>
+                    <p>contact@mediscan-ai.edu</p>
+                </div>
+
+                <div class="contact-item">
+                    <h5>Location Placeholder</h5>
+                    <p>Medical Innovation Lab, Building 4<br>University Campus</p>
+                </div>
+
+                <div class="contact-item">
+                    <h5>Social Media</h5>
+                    <p>GitHub: github.com/mediscan-ai<br>Twitter / X: @MediScanAI</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>MediScan AI</h3>
+                    <p>Educational decision-support platform utilizing deep neural networks for otolaryngological medical image analysis.</p>
+                </div>
+
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/prediction">Prediction</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 MediScan AI Project. Built for Educational & Research Purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
