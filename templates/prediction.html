@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perform AI medical image prediction across Ear, Nose, and Throat models with confidence metrics and safety recommendations.">
+    <title>Medical Image Prediction - MediScan AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo-brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="MediScan AI Logo" class="logo-img">
+            </a>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/prediction" class="nav-link active">Prediction</a></li>
+                <li><a href="/about" class="nav-link">About</a></li>
+                <li><a href="/contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="prediction-section">
+        <div class="container">
+
+            <div class="prediction-header">
+                <h2>Medical Image Prediction</h2>
+                <p>Select a model type, upload an image, and run AI prediction.</p>
+            </div>
+
+            <!-- Model Toggle Switch Tabs -->
+            <div class="toggle-tabs">
+                <button class="tab-btn active" id="tabEar">EAR</button>
+                <button class="tab-btn" id="tabNose">NOSE</button>
+                <button class="tab-btn" id="tabThird">THROAT</button>
+            </div>
+
+            <!-- Uploader Card Component -->
+            <div class="upload-card">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <h3 id="uploaderTitle" style="font-size: 1.4rem; font-weight: 700;">Upload Ear Image</h3>
+                    <p id="uploaderDesc" style="color: var(--text-muted); font-size: 0.95rem;">
+                        Upload a high-resolution otoscopic image for ear disease analysis.
+                    </p>
+                </div>
+
+                <!-- Drag and Drop Dropzone -->
+                <div class="dropzone" id="dropzone">
+                    <div class="dropzone-icon">📁</div>
+                    <div class="dropzone-text">Click to choose image or drag & drop</div>
+                    <div class="dropzone-hint" id="dropzoneHint">Supports JPG, JPEG, and PNG (Max 10MB)</div>
+                    <button type="button" class="btn btn-secondary" style="pointer-events: none;">Choose Image</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".jpg, .jpeg, .png, image/jpeg, image/png">
+                </div>
+
+                <!-- Client-Side Validation Error Box -->
+                <div class="error-alert" id="errorAlert"></div>
+
+                <!-- Image Preview Container -->
+                <div class="preview-container" id="previewContainer">
+                    <div class="preview-img-wrapper">
+                        <img id="previewImg" class="preview-img" src="" alt="Uploaded Medical Preview">
+                    </div>
+
+                    <div class="file-info-badge">
+                        <div>
+                            <strong id="fileNameDisplay">image.jpg</strong> 
+                            <span id="fileSizeDisplay" style="margin-left: 0.5rem; color: var(--text-light);">(0 KB)</span>
+                        </div>
+                        <button type="button" class="btn-remove-file" id="btnRemoveFile">Remove Image</button>
+                    </div>
+                </div>
+
+                <!-- Predict Trigger Button -->
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button type="button" class="btn btn-primary" id="btnPredict" style="width: 100%;" disabled>
+                        PREDICT
+                    </button>
+                </div>
+
+                <!-- Loading State Indicator -->
+                <div class="loading-box" id="loadingBox">
+                    <div class="spinner"></div>
+                    <p style="font-weight: 600; color: var(--primary);">Analyzing medical image with neural network...</p>
+                </div>
+            </div>
+
+            <!-- Safety Disclaimer Banner -->
+            <div class="disclaimer-box" style="max-width: 750px; margin: 2rem auto;">
+                <div class="disclaimer-icon">⚠️</div>
+                <div class="disclaimer-text">
+                    <h4>Educational & Decision-Support Notice</h4>
+                    <p>
+                        AI prediction is for educational/decision-support purposes only and should not replace evaluation by a qualified healthcare professional.
+                    </p>
+                </div>
+            </div>
+
+            <!-- RESULT CARD DISPLAY -->
+            <div class="result-card" id="resultCard">
+                <div class="result-header">
+                    <div>
+                        <div class="result-title-badge">AI Prediction Result</div>
+                        <div class="result-prediction-name" id="resultPredictionName">Normal</div>
+                    </div>
+                    <div class="confidence-badge" id="resultConfidenceBadge">91.0% Confidence</div>
+                </div>
+
+                <!-- Horizontal Probability Bars -->
+                <div class="probability-section">
+                    <h4>Class Probability Distribution</h4>
+                    <div id="probabilityBarsContainer">
+                        <!-- Dynamically populated by JS -->
+                    </div>
+                </div>
+
+                <!-- General Educational Recommendation -->
+                <div class="recommendation-box">
+                    <h4 id="recTitle">General Recommendation</h4>
+                    <p id="recMessage">Analysis message details here.</p>
+                    <div class="recommendation-advice" id="recAdvice">Advice content here.</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="result-actions">
+                    <button type="button" class="btn btn-secondary" id="btnAnalyzeAnother">Analyze Another Image</button>
+                    <button type="button" class="btn btn-primary" id="btnResetTypes">Back to Prediction Types</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>MediScan AI</h3>
+                    <p>Educational decision-support platform utilizing deep neural networks for otolaryngological medical image analysis.</p>
+                </div>
+
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/prediction">Prediction</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 MediScan AI Project. Built for Educational & Research Purposes.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/prediction.js') }}"></script>
+    <script>
+        // Check URL query parameters to select active tab (e.g. /prediction?model=nose)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const modelParam = urlParams.get('model');
+            if (modelParam && ['ear', 'nose', 'throat', 'third'].includes(modelParam)) {
+                const targetKey = modelParam === 'throat' ? 'third' : modelParam;
+                const tabBtn = document.getElementById(targetKey === 'third' ? 'tabThird' : (targetKey === 'nose' ? 'tabNose' : 'tabEar'));
+                if (tabBtn) tabBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
