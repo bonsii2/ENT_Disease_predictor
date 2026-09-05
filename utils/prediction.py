@@ -61,15 +61,13 @@ def run_model_prediction(model, class_names, image_path, model_type_name="ear"):
         else:
             probabilities = raw_output
             
+        # Ensure output is softmax probabilities summing to 1.0
         probabilities = np.array(probabilities, dtype=np.float64)
-        
-        # Check if the output is already softmax probabilities (sums close to 1.0 and all >= 0)
-        prob_sum = np.sum(probabilities)
-        if not (np.isclose(prob_sum, 1.0, atol=1e-2) and np.all(probabilities >= 0)):
-            exp_probs = np.exp(probabilities - np.max(probabilities))
-            probabilities = exp_probs / np.sum(exp_probs)
+        exp_probs = np.exp(probabilities - np.max(probabilities))
+        probabilities = exp_probs / np.sum(exp_probs)
     else:
         # Fallback simulation if model file is not present or failed to load
+        # Pick a deterministic prediction based on file hashing/length for demonstration
         num_classes = len(class_names)
         np.random.seed(abs(hash(image_path)) % 10000)
         random_logits = np.random.uniform(0.1, 1.0, size=num_classes)
@@ -77,16 +75,16 @@ def run_model_prediction(model, class_names, image_path, model_type_name="ear"):
 
     # Step 3: Find index of highest probability
     top_index = int(np.argmax(probabilities))
-    predicted_class = class_names[top_index] if top_index < len(class_names) else f"Class_{top_index}"
+    predicted_class = class_names[top_index]
     confidence_score = float(probabilities[top_index])
     confidence_percentage = round(confidence_score * 100.0, 1)
 
     # Step 4: Map probabilities dictionary for all classes
     class_probabilities = {}
     for idx, class_name in enumerate(class_names):
-        if idx < len(probabilities):
-            prob_val = float(probabilities[idx])
-            class_probabilities[class_name] = round(prob_val, 4)
+        prob_val = float(probabilities[idx])
+        # Round probability to 2 decimal places for response dictionary
+        class_probabilities[class_name] = round(prob_val, 2)
 
     return {
         "model": model_type_name,
