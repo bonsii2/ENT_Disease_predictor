@@ -19,7 +19,12 @@ Key Workflow:
 """
 
 import os
+import sys
 import json
+
+# Ensure project root directory is in sys.path for Flask reloader
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from flask import Flask, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 
@@ -60,7 +65,7 @@ MODELS = {
 
 CLASSES = {
     'ear': ["Acute Otitis Media", "Cerumen Impaction", "Chronic Otitis Media", "Myringosclerosis", "Normal"],
-    'nose': ["Allergic Rhinitis", "Nasal Polyps", "Normal"],
+    'nose': ["Nasal Polyps", "Normal"],
     'third': ["Pharyngitis", "Tonsillitis", "Normal"]
 }
 
@@ -68,9 +73,10 @@ CLASSES = {
 def load_all_models():
     """
     Loads Keras model files (.keras) and class JSON maps (.json) ONCE during server startup.
-    This prevents unnecessary disk reads and model re-initialization on every user request.
+    Searches both 'model' and 'models' directories, prioritizing real trained model files.
     """
-    models_dir = os.path.join(os.path.dirname(__file__), 'models')
+    base_dir = os.path.dirname(__file__)
+    search_dirs = [os.path.join(base_dir, 'model'), os.path.join(base_dir, 'models')]
     
     # Try importing TensorFlow/Keras
     try:
@@ -88,27 +94,37 @@ def load_all_models():
     }
 
     for key, (model_filename, classes_filename) in model_files.items():
-        classes_path = os.path.join(models_dir, classes_filename)
-        model_path = os.path.join(models_dir, model_filename)
+        # 1. Search for Class Names JSON in candidate directories
+        for d in search_dirs:
+            classes_path = os.path.join(d, classes_filename)
+            if os.path.exists(classes_path):
+                try:
+                    with open(classes_path, 'r') as f:
+                        CLASSES[key] = json.load(f)
+                    print(f"[INFO] Loaded class map for '{key}' from {d}: {CLASSES[key]}")
+                    break
+                except Exception as e:
+                    print(f"[ERROR] Failed loading {classes_filename}: {e}")
 
-        # 1. Load Class Names JSON if available
-        if os.path.exists(classes_path):
-            try:
-                with open(classes_path, 'r') as f:
-                    CLASSES[key] = json.load(f)
-                print(f"[INFO] Loaded class map for '{key}': {CLASSES[key]}")
-            except Exception as e:
-                print(f"[ERROR] Failed loading {classes_filename}: {e}")
+        # 2. Search for Keras Model in candidate directories (prioritizing real models > 1MB)
+        model_found_path = None
+        if has_tf:
+            for d in search_dirs:
+                candidate_path = os.path.join(d, model_filename)
+                if os.path.exists(candidate_path):
+                    # Check if file size indicates a real model (> 1MB) vs dummy model (< 1MB)
+                    size_mb = os.path.getsize(candidate_path) / (1024 * 1024)
+                    if model_found_path is None or size_mb > 1.0:
+                        model_found_path = candidate_path
 
-        # 2. Load Keras Model if TensorFlow is available and file exists
-        if has_tf and os.path.exists(model_path):
+        if has_tf and model_found_path and os.path.exists(model_found_path):
             try:
-                MODELS[key] = tf.keras.models.load_model(model_path)
-                print(f"[INFO] Successfully loaded Keras model for '{key}' from {model_filename}")
+                MODELS[key] = tf.keras.models.load_model(model_found_path)
+                print(f"[INFO] Successfully loaded Keras model for '{key}' from {model_found_path} ({os.path.getsize(model_found_path)/1e6:.1f} MB)")
             except Exception as e:
-                print(f"[WARNING] Could not load model '{model_filename}': {e}. Using calculation fallback.")
+                print(f"[WARNING] Could not load model '{model_filename}' from {model_found_path}: {e}. Using fallback.")
         else:
-            print(f"[NOTICE] Model file '{model_filename}' not found at {model_path}. Fallback enabled.")
+            print(f"[NOTICE] Model file '{model_filename}' not found. Fallback enabled for '{key}'.")
 
 # Load models when app starts
 load_all_models()
@@ -253,8 +269,9 @@ def predict_third():
 # APPLICATION LAUNCH
 # =============================================================================
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5005))
     print("==================================================================")
     print(" Starting MediScan AI Flask Server...")
-    print(" Access the application in your web browser at: http://127.0.0.1:5000/")
+    print(f" Access the application in your web browser at: http://127.0.0.1:{port}/")
     print("==================================================================")
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=port, debug=True)
